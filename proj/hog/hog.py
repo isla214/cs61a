@@ -1,8 +1,10 @@
 """The Game of Hog."""
 
-from dice import six_sided, make_test_dice
-from ucb import main, trace, interact
 from math import log2
+
+from dice import make_test_dice, six_sided
+from ucb import interact, main, trace
+import math
 GOAL = 100  # The goal of Hog is to score 100 points.
 
 ######################
@@ -85,7 +87,8 @@ def square_update(num_rolls, player_score, opponent_score, dice=six_sided):
         return next_perfect_square(score)  # Implement next_perfect_square
     else:
         return score
-import math
+
+
 # BEGIN PROBLEM 4
 "*** YOUR CODE HERE ***"
 def perfect_square(score):
@@ -142,10 +145,10 @@ def play(strategy0, strategy1, update,
         else:
             dice_num = strategy1(score1, score0)
             score1 = update(dice_num, score1, score0, dice)
-        who = 1- who #next turn
+        who = 1- who #next turn.
 
     # END PROBLEM 5
-    return score0, score1
+    return score0, score1 
 
 
 #######################
@@ -169,6 +172,9 @@ def always_roll(n):
     assert n >= 0 and n <= 10
     # BEGIN PROBLEM 6
     "*** YOUR CODE HERE ***"
+    def always_roll_n(score0, score1):
+        return n
+    return always_roll_n
     # END PROBLEM 6
 
 
@@ -199,6 +205,13 @@ def is_always_roll(strategy, goal=GOAL):
     """
     # BEGIN PROBLEM 7
     "*** YOUR CODE HERE ***"
+    dice_num = strategy(0,0)#eqial to 5 
+    for score in range(goal):
+        for opponent_score in range(goal):
+            curr_num = strategy(score, opponent_score)#may be 5 or 6
+            if curr_num != dice_num:#as long as one curr_num not equal to dice_num
+                return False
+    return True
     # END PROBLEM 7
 
 
@@ -212,9 +225,30 @@ def make_averaged(original_function, total_samples=1000):
     >>> averaged_dice = make_averaged(roll_dice, 40)
     >>> averaged_dice(1, dice)  # The avg of 10 4's, 10 2's, 10 5's, and 10 1's
     3.0
+
     """
     # BEGIN PROBLEM 8
     "*** YOUR CODE HERE ***"
+    def averaged_dice(*args):
+        sum = 0.0
+        for i in range(total_samples):
+            curr = original_function(*args)
+            sum += curr
+        return sum/total_samples
+    return averaged_dice
+
+
+#dice = make_test_dice(3, 1, 5, 6)
+#averaged_dice = make_averaged(dice, 1000)
+# Average of calling dice 1000 times
+#averaged_dice()
+#3.75 1000/4=250; (3+1+5+6)/4=3.75
+
+#dice = make_test_dice(3, 1, 5, 6)
+#averaged_roll_dice = make_averaged(roll_dice, 1000)
+#averaged_roll_dice(2, dice)
+#6.0 3,1->1 5,6->11;  (1+11)/2=6.0
+
     # END PROBLEM 8
 
 
@@ -229,6 +263,17 @@ def max_scoring_num_rolls(dice=six_sided, total_samples=1000):
     """
     # BEGIN PROBLEM 9
     "*** YOUR CODE HERE ***"
+
+    cur_num = 1
+    max_average = 0
+    while cur_num <= 10:
+        cur_average = make_averaged(roll_dice, total_samples)(cur_num,dice)
+        if cur_average > max_average:
+            max_num = cur_num
+            max_average = cur_average
+        cur_num += 1
+    return max_num
+
     # END PROBLEM 9
 
 
@@ -272,6 +317,10 @@ def tail_strategy(score, opponent_score, threshold=12, num_rolls=6):
     points, and returns NUM_ROLLS otherwise. Ignore score and Square Swine.
     """
     # BEGIN PROBLEM 10
+
+    pig_tail = tail_points(opponent_score)
+    if pig_tail >= threshold:
+        return 0
     return num_rolls  # Remove this line once implemented.
     # END PROBLEM 10
 
@@ -279,6 +328,14 @@ def tail_strategy(score, opponent_score, threshold=12, num_rolls=6):
 def square_strategy(score, opponent_score, threshold=12, num_rolls=6):
     """This strategy returns 0 dice when your score would increase by at least threshold."""
     # BEGIN PROBLEM 11
+    pig_tail = tail_points(opponent_score)
+    if pig_tail >= threshold:
+        return 0
+    else: 
+        if perfect_square(score+pig_tail):
+            cur_score = next_perfect_square(score+pig_tail)
+            if cur_score >= threshold:
+                return 0
     return num_rolls  # Remove this line once implemented.
     # END PROBLEM 11
 

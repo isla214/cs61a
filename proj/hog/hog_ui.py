@@ -131,3 +131,4 @@ def run(*args):
                         help='How many interactive players (0, 1, or 2)')
     args = parser.parse_args()
     play_with(args.num_players)
+
