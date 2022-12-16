@@ -16,17 +16,14 @@ test = {
           >>> steven = lambda x: x
           >>> stewart = even(steven)
           >>> stewart
-          4f02258d689b15b516174b381ad2aef8
-          # locked
+          Function
           >>> stewart(61)
-          fca276f013f718468273f07db52f3ab7
-          # locked
+          61
           >>> stewart(-4)
-          ef6b0e7c554b5515158e88d1ee908645
-          # locked
+          4
           """,
           'hidden': False,
-          'locked': True,
+          'locked': False,
           'multiline': False
         },
         {
@@ -39,11 +36,9 @@ test = {
           ...        return 'cake'
           ...    return pie
           >>> chocolate = cake()
-          0127137631d037670fa6a894e2d548ee
-          # locked
+          beets
           >>> chocolate
-          4f02258d689b15b516174b381ad2aef8
-          # locked
+          Function
           >>> chocolate()
           28f5a700252060ec3bbc4bf4ca744c56
           7fccab88a7c3c0cbffe0142e723d1984
