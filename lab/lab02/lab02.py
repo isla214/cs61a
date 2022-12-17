@@ -66,8 +66,7 @@ def count_cond(condition):
             i += 1
         return count
     return counter
-count_factors = count_cond(lambda n, i: n % i == 0)
-print(count_factors(4) )
+
 
 def composer(f, g):
     """Return the composition function which given x, computes f(g(x)).
@@ -84,7 +83,10 @@ def composer(f, g):
     >>> a2(5)
     108
     """
-    return lambda x: f(g(x))
+    def identity(x):
+        return composer(f, g)(x) == composer(g, f)(x)
+    return identity
+    #return lambda x: f(g(x))
 
 
 def composite_identity(f, g):
@@ -102,6 +104,8 @@ def composite_identity(f, g):
     False
     """
     "*** YOUR CODE HERE ***"
+
+    return lambda x: f(g(x)) == g(f(x))
 
 
 def cycle(f1, f2, f3):
@@ -131,3 +135,26 @@ def cycle(f1, f2, f3):
     19
     """
     "*** YOUR CODE HERE ***"
+    def func1(n):
+        def func2(x):
+            i = 0
+            while i < n:
+                if i % 3 == 0:
+                    x = f1(x)
+                elif i % 3 == 1:
+                    x = f2(x)
+                else: 
+                    x = f3(x)
+            return x
+        return func2
+    return func1
+# Alternative solution
+def cycle2(f1,f2,f3):
+    def ret_fn(n):
+        def ret(x):
+            if n == 0:
+                return x
+            return cycle(f2, f3, f1)(n - 1)(f1(x))
+        return ret
+    return ret_fn
+
