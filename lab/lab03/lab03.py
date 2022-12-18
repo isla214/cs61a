@@ -107,6 +107,8 @@ def apply_twice(func):
     16
     """
     "*** YOUR CODE HERE ***"
+    return make_repeater(func, 2)
+
 
 
 def div_by_primes_under(n):
@@ -120,13 +122,29 @@ def div_by_primes_under(n):
     >>> div_by_primes_under(5)(1)
     False
     """
-    checker = lambda x: False
-    i = ____________________________
-    while ____________________________:
-        if not checker(i):
-            checker = ____________________________
-        i = ____________________________
-    return ____________________________
+    # checker = lambda k: False
+    # i = 2
+    # while i <= n:
+    #     if not checker:
+    #         checker = (lambda k: k % i == 0)
+    #     i += 1
+    # return checker
+    checker = lambda k: False
+    i = 2
+    while i <= n:
+        if not checker(i):#if True(checker false) will run
+            checker = (lambda k: k % i == 0)#only run when checker=False
+        i += 1
+    return checker
+
+
+    # checker = lambda x: False
+    # i = ____________________________
+    # while ____________________________:
+    #     if not checker(i):
+    #         checker = ____________________________
+    #     i = ____________________________
+    # return ____________________________
 
 
 def div_by_primes_under_no_lambda(n):
@@ -140,18 +158,28 @@ def div_by_primes_under_no_lambda(n):
     >>> div_by_primes_under_no_lambda(5)(1)
     False
     """
-    def checker(x):
+    def checker(k):
+        for i in range (2,n+1):
+            if k % i == 0:
+                return True
         return False
-    i = ____________________________
-    while ____________________________:
-        if not checker(i):
-            def outer(____________________________):
-                def inner(____________________________):
-                    return ____________________________
-                return ____________________________
-            checker = ____________________________
-        i = ____________________________
-    return ____________________________
+    return checker
+
+
+
+
+    # def checker(x):
+    #     return False
+    # i = ____________________________
+    # while ____________________________:
+    #     if not checker(i):
+    #         def outer(____________________________):
+    #             def inner(____________________________):
+    #                 return ____________________________
+    #             return ____________________________
+    #         checker = ____________________________
+    #     i = ____________________________
+    # return ____________________________
 
 
 def zero(f):
