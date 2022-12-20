@@ -25,6 +25,11 @@ def num_eights(pos):
     True
     """
     "*** YOUR CODE HERE ***"
+    if pos == 0:
+        return 0
+    elif pos % 10 == 8:
+        return 1 + num_eights(pos//10)
+    return num_eights(pos//10)
 
 
 def pingpong(n):
@@ -61,6 +66,14 @@ def pingpong(n):
     True
     """
     "*** YOUR CODE HERE ***"
+    def helper(i):
+        if i == n :
+            return 1
+        elif num_eights(i) > 0 or i%8 == 0:
+            return 1+-1*helper(i+1)
+        return 1 + helper(i+1)
+    return helper(1)
+
 
 
 def next_larger_coin(coin):
@@ -117,6 +130,21 @@ def count_coins(change):
     True
     """
     "*** YOUR CODE HERE ***"
+    def helper(change, coin):
+        if change == 0:
+            return 1
+        elif change < 0:
+            return 0
+        elif coin == None:
+            return 0
+        else:
+            with_coin = helper(change-coin, coin)#use at least one coin
+            without_coin = helper(change, next_smaller_coin(coin))#use next smaller coin
+        return with_coin + without_coin
+    return helper(change, 25)
+
+
+
 
 
 anonymous = False  # Change to True if you would like to remain anonymous on the final leaderboard.
