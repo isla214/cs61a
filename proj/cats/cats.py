@@ -3,7 +3,7 @@
 from utils import lower, split, remove_punctuation, lines_from_file
 from ucb import main, interact, trace
 from datetime import datetime
-
+import math
 
 ###########
 # Phase 1 #
@@ -31,8 +31,23 @@ def pick(paragraphs, select, k):
     """
     # BEGIN PROBLEM 1
     "*** YOUR CODE HERE ***"
-    # END PROBLEM 1
+    # new = []
+    # for element in paragraphs:
+    #     if select(element):
+    #         new.append(element)
+    # if len(new) > k:#length=3(0,1,2) 
+    #     return new[k]
+    # return ''
+    #method 2: without new list
+    idx = 0
+    for p in paragraphs:
+        if select(p):
+            if idx == k:
+                return p
+            idx += 1 #only add index when select() is true
+    return ''
 
+    # END PROBLEM 1
 
 def about(topic):
     """Return a select function that returns whether
@@ -50,6 +65,24 @@ def about(topic):
     assert all([lower(x) == x for x in topic]), 'topics should be lowercase.'
     # BEGIN PROBLEM 2
     "*** YOUR CODE HERE ***"
+    # def help(paragraph):
+    #     list = split(lower(remove_punctuation(paragraph)))#convert it into a list
+    #     for p in list:
+    #         for t in topic:
+    #             t = lower(remove_punctuation(t))
+    #             if p == t:
+    #                 return True
+    #     return False
+    # return help
+    #method2
+    def help(paragraph):
+        list = split(lower(remove_punctuation(paragraph)))#convert it into a list
+        for t in topic:
+            t = lower(remove_punctuation(t))
+            if t in list:
+                return True
+        return False
+    return help
     # END PROBLEM 2
 
 
@@ -80,8 +113,34 @@ def accuracy(typed, source):
     source_words = split(source)
     # BEGIN PROBLEM 3
     "*** YOUR CODE HERE ***"
-    # END PROBLEM 3
+    # score = 0
+    # if len(typed_words) == 0 and len(source_words) == 0:
+    #     return 100.0
+    # elif len(typed_words) == 0 or len(source_words) == 0:
+    #     return 0.0
 
+    # if len(typed_words) <= len(source_words):
+    #     for i in range(len(typed_words)):
+    #         if typed_words[i] == source_words[i]:
+    #             score += 1
+    #     return round((score/len(typed_words))*100,1)
+    # elif len(typed_words) > len(source_words):
+    #     for i in range(len(source_words)):
+    #         if typed_words[i] == source_words[i]:
+    #             score += 1
+    #     return round((score/len(typed_words))*100,2)
+    # method 2
+    t_len, s_len = len(typed_words), len(source_words)
+    if t_len == 0 and s_len == 0:
+        return 100.0
+    elif t_len == 0 or s_len == 0:
+        return 0.0
+    score = 0
+    for i in range(min(t_len, s_len)):
+        if typed_words[i] == source_words[i]:
+            score += 1
+    return score*100.0 / t_len
+    # END PROBLEM 3
 
 def wpm(typed, elapsed):
     """Return the words-per-minute (WPM) of the TYPED string.
