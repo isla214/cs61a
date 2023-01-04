@@ -157,8 +157,9 @@ def wpm(typed, elapsed):
     assert elapsed > 0, 'Elapsed time must be positive'
     # BEGIN PROBLEM 4
     "*** YOUR CODE HERE ***"
+    l = len(typed)/5
+    return (l/elapsed)*60.0
     # END PROBLEM 4
-
 
 ###########
 # Phase 2 #
@@ -184,8 +185,18 @@ def autocorrect(typed_word, word_list, diff_function, limit):
     """
     # BEGIN PROBLEM 5
     "*** YOUR CODE HERE ***"
-    # END PROBLEM 5
+    if typed_word in word_list:
+        return typed_word
+    minnum = limit+10
+    close_word = typed_word
+    for word in word_list:
+        diff = diff_function(typed_word, word, limit)
+        if diff < minnum and diff <= limit:
+            minnum = diff
+            close_word = word 
+    return close_word
 
+    # END PROBLEM 5
 
 def feline_fixes(typed, source, limit):
     """A diff function for autocorrect that determines how many letters
@@ -210,7 +221,31 @@ def feline_fixes(typed, source, limit):
     5
     """
     # BEGIN PROBLEM 6
-    assert False, 'Remove this line'
+    '''
+    len_t, len_s = len(typed), len(source)
+    if len_t == 0 and len_s == 0:
+        return 0
+    elif len_t == 0 or len_s == 0:
+        return abs(len_t - len_s)
+    elif typed[0] != source[0]:
+        return min(1 + feline_fixes(typed[1:], source[1:], limit-1), limit+1)
+    else:
+        return min(feline_fixes(typed[1:], source[1:], limit), limit+1)
+    '''
+    def help(typed, source, cnt):
+        len_t, len_s = len(typed), len(source)
+        if cnt > limit:
+            return limit+1
+        if len_t == 0 and len_s == 0:
+            return cnt
+        elif len_t == 0 or len_s == 0:
+            return min(cnt+abs(len_t - len_s), limit+1)
+        elif typed[0] != source[0]:
+            return help(typed[1:], source[1:], cnt+1)
+        else:
+            return help(typed[1:], source[1:], cnt)
+    return help(typed, source, 0)
+
     # END PROBLEM 6
 
 
