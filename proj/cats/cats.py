@@ -294,7 +294,8 @@ FINAL_DIFF_LIMIT = 6  # REPLACE THIS WITH YOUR LIMIT
 
 def report_progress(typed, prompt, user_id, upload):
     """Upload a report of your id and progress so far to the multiplayer server.
-    Returns the progress so far.
+    Returns the progress so far. Your progress is a ratio of the words in the prompt 
+    that you have typed correctly, up to the first incorrect word, divided by the number of prompt words
 
     Arguments:
         typed: a list of the words typed so far
@@ -317,6 +318,16 @@ def report_progress(typed, prompt, user_id, upload):
     """
     # BEGIN PROBLEM 8
     "*** YOUR CODE HERE ***"
+    cnt = 0
+    for t in range(len(typed)):
+        if typed[t] == prompt[t]:
+            cnt += 1
+        else:
+            break
+    dic = {'id': user_id, 'progress': cnt/len(prompt)}
+    upload(dic)
+    return cnt/len(prompt)
+
     # END PROBLEM 8
 
 
