@@ -264,24 +264,20 @@ def minimum_mewtations(start, goal, limit):
     >>> minimum_mewtations("ckiteus", "kittens", big_limit) # ckiteus -> kiteus -> kitteus -> kittens
     3
     """
-    assert False, 'Remove this line'
-    if ______________:  # Fill in the condition
-        # BEGIN
-        "*** YOUR CODE HERE ***"
-        # END
-    elif ___________:  # Feel free to remove or add additional cases
-        # BEGIN
-        "*** YOUR CODE HERE ***"
-        # END
+    
+    start_l, goal_l = len(start), len(goal)
+    if start_l == 0 or goal_l == 0:  # Fill in the condition
+        return min(start_l + goal_l, limit+1)
+    elif start[0] == goal[0]:  # Feel free to remove or add additional cases
+        return min(minimum_mewtations(start[1:], goal[1:], limit), limit+1)
     else:
-        add = ...  # Fill in these lines
-        remove = ...
-        substitute = ...
-        # BEGIN
-        "*** YOUR CODE HERE ***"
-        # END
+        add = 1 + minimum_mewtations(start, goal[1:], limit)
+        remove = 1 + minimum_mewtations(start[1:], goal, limit)
+        substitute = 1 + minimum_mewtations(start[1:], goal[1:], limit)
+        return min(add, remove, substitute, limit+1)
+        
 
-
+# LeetCode 72 (Hard): https://leetcode.com/problems/edit-distance/
 def final_diff(typed, source, limit):
     """A diff function that takes in a string TYPED, a string SOURCE, and a number LIMIT.
     If you implement this function, it will be used."""
