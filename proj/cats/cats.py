@@ -367,7 +367,7 @@ def time_per_word(words, times_per_player):
 
     # # ti = [[0] * (len(times_per_player[0]) - 1)] * len(times_per_player)
     # # This is wrong due to the difference of copy and deepcopy.
-    # ti = [None] * len(times_per_player)#ti = [None, None...]
+    # ti = [None] * len(times_per_player) #ti = [None, None...]
 
     # for i in range(len(times_per_player)):
 
@@ -399,6 +399,22 @@ def fastest_words(match):
     word_indices = range(len(get_all_words(match)))    # contains an *index* for each word
     # BEGIN PROBLEM 10
     "*** YOUR CODE HERE ***"
+    fastest = [None] * len(get_all_times(match))#fatest=[None, None, None...]
+    for j in player_indices:
+        fastest[j] = [] # [[], [], []...]
+    #fatest = [[]]*len(get_all_times(match)) # [[], [], []...] this is wrong!!!
+
+    for i in word_indices:
+        word = get_word(match, i)
+        min_j, min_time = 0, time(match, 0, i)
+        for j in player_indices:
+            player = time(match, j, i)
+            if player < min_time:
+                min_time = player
+                min_j = j
+        fastest[min_j].append(word)
+    return fastest
+
     # END PROBLEM 10
 
 
