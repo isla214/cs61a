@@ -1,3 +1,6 @@
 'distance-correct', (0, 66)
 'closer_city-correct', (512, 66)
 'check_city_abstraction-correct', (1024, 66)
+'berry_finder-correct', (1536, 66)
+'sprout_leaves-correct', (2048, 66)
+'check_abstraction-correct', (2560, 66)
