@@ -1,16 +1,3 @@
-passphrase = '*** PASSPHRASE HERE ***'
-
-
-def midsem_survey(p):
-    """
-    You do not need to understand this code.
-    >>> midsem_survey(passphrase)
-    '3604213a3953387d79893b4bde4bf4c213d8c26d3da62a9f07eb79d3'
-    """
-    import hashlib
-    return hashlib.sha224(p.encode('utf-8')).hexdigest()
-
-
 HW_SOURCE_FILE = __file__
 
 
@@ -61,16 +48,19 @@ def end(s):
     return s[2]
 
 
-def planet(mass):
-    """Construct a planet of some mass."""
-    assert mass > 0
+def planet(size):
+    """Construct a planet of some size."""
+    assert size > 0
     "*** YOUR CODE HERE ***"
+    return ['planet', size]
 
 
-def mass(w):
-    """Select the mass of a planet."""
-    assert is_planet(w), 'must call mass on a planet'
+
+def size(w):
+    """Select the size of a planet."""
+    assert is_planet(w), 'must call size on a planet'
     "*** YOUR CODE HERE ***"
+    return w[1]
 
 
 def is_planet(w):
@@ -104,7 +94,7 @@ def total_weight(m):
     True
     """
     if is_planet(m):
-        return mass(m)
+        return size(m)
     else:
         assert is_mobile(m), "must get total weight of a mobile or a planet"
         return total_weight(end(left(m))) + total_weight(end(right(m)))
@@ -131,7 +121,16 @@ def balanced(m):
     True
     """
     "*** YOUR CODE HERE ***"
+    
+    if is_planet(m):
+        return True
+    else:
+        l_arm, l_len = end(left(m)), length(left(m))
+        r_arm, r_len = end(right(m)), length(right(m))
 
+        l_torque = l_len * total_weight(l_arm)
+        r_torque = r_len * total_weight(r_arm)
+        return l_torque == r_torque and balanced(l_arm) and balanced(r_arm)
 
 def totals_tree(m):
     """Return a tree representing the mobile with its total weight at the root.
@@ -228,6 +227,19 @@ def has_path(t, word):
     False
     """
     assert len(word) > 0, 'no path for empty word.'
+    "*** YOUR CODE HERE ***"
+
+
+def preorder(t):
+    """Return a list of the entries in this tree in the order that they
+    would be visited by a preorder traversal (see problem description).
+
+    >>> numbers = tree(1, [tree(2), tree(3, [tree(4), tree(5)]), tree(6, [tree(7)])])
+    >>> preorder(numbers)
+    [1, 2, 3, 4, 5, 6, 7]
+    >>> preorder(tree(2, [tree(4, [tree(6)])]))
+    [2, 4, 6]
+    """
     "*** YOUR CODE HERE ***"
 
 
