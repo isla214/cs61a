@@ -162,7 +162,15 @@ def totals_tree(m):
     True
     """
     "*** YOUR CODE HERE ***"
+    if is_planet(m):
+        return tree(size(m))
 
+    l_arm, r_arm = end(left(m)), end(right(m))
+    branches = [totals_tree(end(f(m))) for f in [left, right]]
+    return tree(sum([label(b) for b in branches]), branches)
+
+   
+    return [total, [totals_tree(l_arm), totals_tree(r_arm)]]
 
 def replace_loki_at_leaf(t, lokis_replacement):
     """Returns a new tree where every leaf value equal to "loki" has
