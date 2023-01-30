@@ -165,7 +165,6 @@ def totals_tree(m):
     if is_planet(m):
         return tree(size(m))
 
-    l_arm, r_arm = end(left(m)), end(right(m))
     branches = [totals_tree(end(f(m))) for f in [left, right]]
     return tree(sum([label(b) for b in branches]), branches)
 
@@ -202,6 +201,9 @@ def replace_loki_at_leaf(t, lokis_replacement):
     True
     """
     "*** YOUR CODE HERE ***"
+    if is_leaf(t) and label(t) == 'loki':
+        return tree(lokis_replacement)
+    return tree(label(t),[replace_loki_at_leaf(b, lokis_replacement) for b in branches(t)])
 
 
 def has_path(t, word):
@@ -236,6 +238,12 @@ def has_path(t, word):
     """
     assert len(word) > 0, 'no path for empty word.'
     "*** YOUR CODE HERE ***"
+    if label(t) == word:
+        return True
+    if word[0] != label(t):
+        return False
+    return any([has_path(b, word[1:]) for b in branches(t)])
+
 
 
 def preorder(t):
@@ -249,6 +257,9 @@ def preorder(t):
     [2, 4, 6]
     """
     "*** YOUR CODE HERE ***"
+    if is_leaf(t):
+        return [label(t)]
+    return sum([preorder(b) for b in branches(t)], [label(t)])
 
 
 def str_interval(x):
@@ -273,11 +284,14 @@ def interval(a, b):
 def lower_bound(x):
     """Return the lower bound of interval x."""
     "*** YOUR CODE HERE ***"
+    return x[0]
+
 
 
 def upper_bound(x):
     """Return the upper bound of interval x."""
     "*** YOUR CODE HERE ***"
+    return x[1]
 
 
 def str_interval(x):
@@ -296,17 +310,20 @@ def add_interval(x, y):
 def mul_interval(x, y):
     """Return the interval that contains the product of any value in x and any
     value in y."""
-    p1 = x[0] * y[0]
-    p2 = x[0] * y[1]
-    p3 = x[1] * y[0]
-    p4 = x[1] * y[1]
-    return [min(p1, p2, p3, p4), max(p1, p2, p3, p4)]
+    p1 = lower_bound(x) * lower_bound(y)
+    p2 = lower_bound(x) * upper_bound(y)
+    p3 = upper_bound(x) * lower_bound(y)
+    p4 = upper_bound(x) * upper_bound(y)
+    #return [interval(]min(p1, p2, p3, p4), max(p1, p2, p3, p4)] same result but wrong
+    return interval(min(p1, p2, p3, p4), max(p1, p2, p3, p4))
+    
 
 
 def sub_interval(x, y):
     """Return the interval that contains the difference between any value in x
     and any value in y."""
     "*** YOUR CODE HERE ***"
+    
 
 
 def div_interval(x, y):
