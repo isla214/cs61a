@@ -61,7 +61,20 @@ def count_occurrences(t, n, x):
     2
     """
     "*** YOUR CODE HERE ***"
-
+    # count = 0
+    # i = 0
+    # while i <= n:
+    #     value = next(t)
+    #     if value == x:
+    #         count += 1
+    #     i += 1
+    # return count
+    count = 0
+    for i in range(n):
+        value = next(t)
+        if value == x:
+            count += 1
+    return count
 
 def repeated(t, k):
     """Return the first value in iterator T that appears K times in a row.
@@ -86,3 +99,28 @@ def repeated(t, k):
     """
     assert k > 1
     "*** YOUR CODE HERE ***"
+    # count =  1
+    # last_item = None
+    # while True:
+    #     item = next(t)
+    #     if item == last_item:
+    #         count += 1
+    #     else:
+    #         last_item = item
+    #         count = 1
+    #     if count == k:
+    #         return item
+    count = 1
+    last_item = next(t)
+    while True:
+        item = next(t)
+        if last_item == item:
+            count += 1
+        else:
+            last_item = item
+            count = 1
+        if count == k:
+            return item
+
+
+    
